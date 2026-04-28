@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum Role {
+  vendor
+  user
+}
+
+enum TransactionType {
+  credit
+  debit
+}
+
+enum TransactionCategory {
+  income
+  expense
+  refund
+  supplier_payment
+  unknown
+}
+
+enum ExpenseCategory {
+  rent
+  electricity
+  stock_purchase
+  transport
+  miscellaneous
+}
+
+enum AlertType {
+  low_stock
+  unusual_sales_dip
+  peak_hour
+  top_selling_restock
+}
+
+enum SalesPeriod {
+  daily
+  weekly
+  monthly
+}
+
+model User {
+  id             String          @id @default(uuid())
+  email          String          @unique
+  name           String
+  passwordHash  String
+  role           Role
+  language       String          @default("en")
+  createdAt      DateTime        @default(now())
+
+  transactions   Transaction[]
+  expenses       Expense[]
+  inventoryItems InventoryItem[]
+  assistantQueries AssistantQuery[]
+  alerts         Alert[]
+  salesSummaries SalesSummary[]
+}
+
+model Transaction {
+  id               String              @id @default(uuid())
+  userId           String
+  user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  messageText      String?
+  amount           Float
+  transactionType  TransactionType
+  category         TransactionCategory
+
+  customerName     String?
+  sourceApp        String?
+  transactionTime  DateTime?
+
+  inventoryItemId  String?
+  quantity         Int?
+
+  createdAt        DateTime           @default(now())
+
+  inventoryItem   InventoryItem?     @relation(fields: [inventoryItemId], references: [id])
+
+  @@index([userId, transactionTime])
+  @@index([userId, category])
+}
+
+model Expense {
+  id          String          @id @default(uuid())
+  userId      String
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  category    ExpenseCategory
+  amount      Float
+  note         String?
+  expenseTime DateTime?
+
+  createdAt   DateTime       @default(now())
+
+  @@index([userId, expenseTime])
+}
+
+model InventoryItem {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  productName   String
+  category      String
+  stockQuantity Int
+  costPrice     Float
+  sellingPrice  Float
+  reorderLevel  Int
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  transactions  Transaction[]
+
+  @@index([userId, stockQuantity])
+}
+
+model SalesSummary {
+  id        String      @id @default(uuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  period    SalesPeriod
+  startDate DateTime
+  endDate   DateTime
+
+  totalIncome   Float
+  totalExpenses Float
+  estimatedProfit Float
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, period, startDate, endDate])
+}
+
+model AssistantQuery {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  question   String
+  response   String
+  language   String   @default("en")
+  createdAt  DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model Alert {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type      AlertType
+  message   String
+  isResolved Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, type, isResolved])
+}
+
