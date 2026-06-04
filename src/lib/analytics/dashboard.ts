@@ -1,4 +1,3 @@
-import type { Decimal } from "@prisma/client/runtime/library";
 import type { AlertType, ExpenseCategory, TransactionCategory } from "@prisma/client";
 
 import type { prisma as PrismaType } from "@/lib/prisma";
@@ -44,10 +43,9 @@ function formatHourRange(bestStartHour: number, hours: number) {
   return `${fmt(start)} - ${fmt(end)}`;
 }
 
-function decToNumber(v: Decimal | null | undefined) {
+function decToNumber(v: number | null | undefined) {
   if (v === null || v === undefined) return 0;
-  // Prisma Decimal has toString
-  return Number((v as any).toString());
+  return v;
 }
 
 export async function getDashboardData(userId: string) {

@@ -1,81 +1,36 @@
-# Small Business Smart Assistant (UPI++) 🚀
-
-An AI-powered assistant for small vendors and micro-business owners that automatically tracks sales from UPI SMS/payment messages, analyzes business performance, and provides intelligent insights.
-
-## Project Vision
-To empower micro-entrepreneurs (street vendors, kirana stores, tea stalls) with data-driven decision-making tools that are simple, mobile-first, and voice-ready.
-
-## Core Features
-- **UPI SMS Parser**: Demo module to parse transaction SMS (amount, name, type) automatically.
-- **Smart Dashboard**: Real-time sales, weekly trends, and peak business hour tracking.
-- **AI Insight Assistant**: Chat and voice-based interface for querying business data (e.g., "How much did I earn today?").
-- **Smart Inventory**: Automated stock alerts and restock suggestions based on sales velocity.
-- **Expense Tracking**: Categorized business spending with profit calculation.
-- **Reports & Analytics**: Visual charts and downloadable summaries for business health.
-- **Multilingual Support**: Placeholder UI and assistant logic for Hindi, Kannada, Tamil, and Telugu.
-
-## Tech Stack
-- **Frontend**: Next.js 14, React, Lucide Icons
-- **Backend**: Next.js API Routes (Modular Architecture)
-- **Database**: Prisma ORM with SQLite (Demo-ready)
-- **Styling**: Vanilla CSS with Design System (Premium Aesthetics)
-- **AI Logic**: Prompt-based rule engine (Custom Logic)
-- **Voice Support**: Web Speech API integration structure
-
-## How this project uses Microsoft Technologies 💻
-
-This project is built to seamlessly scale within the **Microsoft Azure** ecosystem:
-
-- **Azure SQL Database**: For enterprise-grade transaction storage and security.
-- **Azure AI Services**:
-    - **Language Service**: For high-accuracy NLP parsing of complex UPI messages.
-    - **Speech Service**: (Azure Speech SDK) For production-grade multilingual voice commands.
-- **Power BI Embedded**: To provide deep dive multi-dimensional business analytics to vendors.
-- **Power Automate**: To trigger SMS/WhatsApp alerts for low stock or high sales notifications.
-- **Azure App Service**: For robust, scalable hosting of the Next.js application.
-
----
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-### Prerequisites
-- Node.js 18.x or later
-- npm or yarn
+First, run the development server:
 
-### Installation
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd upi-smart-assistant
-   ```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-3. **Database Setup**
-   ```bash
-   npx prisma generate
-   npx prisma db push
-   ```
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-4. **Run the development server**
-   ```bash
-   npm run dev
-   ```
+## Learn More
 
-5. **Open in Browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+To learn more about Next.js, take a look at the following resources:
 
----
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## 📸 Hackathon Demo Flow
-1. **Dashboard**: View the current sales and profit status.
-2. **Transactions**: Click **"Parse UPI SMS"** and paste the sample message to see the automatic extraction in action.
-3. **Inventory**: Check **"Low Stock Alerts"** and see "Basmati Rice" restock suggestion.
-4. **AI Assistant**: Open the assistant and ask: *"How much did I earn today?"* or click the **Mic** icon for voice demo.
-5. **Reports**: View the **"Daily Sales Trend"** and export the performance PDF.
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-**Hackathon Winner Vision**: We bring the power of high-end ERPs to the palm of a tea-vendor. Simple, Smart, and Scalable.
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

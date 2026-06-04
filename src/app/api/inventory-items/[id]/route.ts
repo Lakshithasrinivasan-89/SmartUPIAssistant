@@ -12,17 +12,18 @@ const patchSchema = z.object({
   reorderLevel: z.number().int().nonnegative().optional(),
 });
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const user = await getCurrentUserOrThrow();
   const body = await req.json();
   const parsed = patchSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
 
-  const existing = await prisma.inventoryItem.findFirst({ where: { id: params.id, userId: user.id }, select: { id: true } });
+  const existing = await prisma.inventoryItem.findFirst({ where: { id, userId: user.id }, select: { id: true } });
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   const updated = await prisma.inventoryItem.update({
-    where: { id: params.id },
+    where: { id },
     data: parsed.data,
     select: {
       id: true,
@@ -46,12 +47,13 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   });
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const user = await getCurrentUserOrThrow();
-  const existing = await prisma.inventoryItem.findFirst({ where: { id: params.id, userId: user.id }, select: { id: true } });
+  const existing = await prisma.inventoryItem.findFirst({ where: { id, userId: user.id }, select: { id: true } });
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  await prisma.inventoryItem.delete({ where: { id: params.id } });
+  await prisma.inventoryItem.delete({ where: { id } });
   return NextResponse.json({ ok: true });
 }
 

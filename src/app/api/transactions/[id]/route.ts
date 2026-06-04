@@ -18,7 +18,8 @@ const patchSchema = z.object({
   quantity: z.number().int().positive().optional().nullable(),
 });
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const user = await getCurrentUserOrThrow();
   const body = await req.json();
   const parsed = patchSchema.safeParse(body);
@@ -27,13 +28,13 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   const b = parsed.data;
 
   const existing = await prisma.transaction.findFirst({
-    where: { id: params.id, userId: user.id },
+    where: { id, userId: user.id },
     select: { id: true },
   });
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   const updated = await prisma.transaction.update({
-    where: { id: params.id },
+    where: { id },
     data: {
       ...(b.amount !== undefined ? { amount: b.amount } : {}),
       ...(b.transactionType !== undefined ? { transactionType: b.transactionType } : {}),
@@ -64,12 +65,13 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   return NextResponse.json({ transaction: { ...updated, amount: Number(updated.amount.toString()) } });
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const user = await getCurrentUserOrThrow();
-  const existing = await prisma.transaction.findFirst({ where: { id: params.id, userId: user.id }, select: { id: true } });
+  const existing = await prisma.transaction.findFirst({ where: { id, userId: user.id }, select: { id: true } });
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  await prisma.transaction.delete({ where: { id: params.id } });
+  await prisma.transaction.delete({ where: { id } });
   return NextResponse.json({ ok: true });
 }
 

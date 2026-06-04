@@ -27,6 +27,7 @@ type Suggestion = {
   category: string;
   stockQuantity: number;
   reorderLevel: number;
+  sellingPrice: number;
   avgDailySold: number;
   projectedDaysLeft: number | null;
   isLowStock: boolean;

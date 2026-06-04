@@ -6,6 +6,7 @@ type InventorySuggestion = {
   category: string;
   stockQuantity: number;
   reorderLevel: number;
+  sellingPrice: number;
   avgDailySold: number;
   projectedDaysLeft: number | null;
   isLowStock: boolean;
@@ -69,6 +70,7 @@ export async function getInventorySuggestions(userId: string) {
       category: it.category,
       stockQuantity: it.stockQuantity,
       reorderLevel: it.reorderLevel,
+      sellingPrice: it.sellingPrice,
       avgDailySold,
       projectedDaysLeft,
       isLowStock,
