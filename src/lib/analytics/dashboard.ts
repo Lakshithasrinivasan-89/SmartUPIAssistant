@@ -1,6 +1,4 @@
-import type { AlertType, ExpenseCategory, TransactionCategory } from "@prisma/client";
-
-import type { prisma as PrismaType } from "@/lib/prisma";
+import type { AlertType, ExpenseCategory, TransactionCategory } from "@/lib/types";
 import { prisma } from "@/lib/prisma";
 
 type DashboardRange = "today" | "weekly" | "monthly";

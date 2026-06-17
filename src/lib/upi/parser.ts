@@ -1,4 +1,4 @@
-import type { Prisma, TransactionCategory, TransactionType } from "@prisma/client";
+import type { TransactionCategory, TransactionType } from "@/lib/types";
 
 export type ParsedUpiTransaction = {
   amount: number;

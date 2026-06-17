@@ -8,7 +8,7 @@ import { Select } from "@/components/ui/Select";
 import { Badge } from "@/components/ui/Badge";
 import { Spinner } from "@/components/ui/Spinner";
 import { formatINR } from "@/lib/format/money";
-import type { TransactionCategory, TransactionType } from "@prisma/client";
+import type { TransactionCategory, TransactionType } from "@/lib/types";
 
 type Tx = {
   id: string;

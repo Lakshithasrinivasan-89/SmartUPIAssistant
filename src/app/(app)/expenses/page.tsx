@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Spinner } from "@/components/ui/Spinner";
 import { formatINR } from "@/lib/format/money";
-import type { ExpenseCategory } from "@prisma/client";
+import type { ExpenseCategory } from "@/lib/types";
 
 type ExpenseRow = {
   id: string;

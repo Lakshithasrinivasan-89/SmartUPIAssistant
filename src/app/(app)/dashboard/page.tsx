@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardHeader, CardTitle, CardValue } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Spinner } from "@/components/ui/Spinner";
-import type { TransactionCategory } from "@prisma/client";
+import type { TransactionCategory } from "@/lib/types";
 import { moneyToNumber, formatINR } from "@/lib/format/money";
 
 type DashboardResponse = any;

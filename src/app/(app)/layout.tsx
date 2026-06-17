@@ -1,11 +1,49 @@
+"use client";
+
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { getCurrentUser } from "@/lib/auth/session";
+import { useEffect, useState } from "react";
 import { LogoutButton } from "@/components/LogoutButton";
 
-export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const user = await getCurrentUser();
-  if (!user) redirect("/login");
+interface AppLayoutUser {
+  id: string;
+  name: string;
+  role: string;
+  email: string;
+}
+
+export default function AppLayout({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<AppLayoutUser | null>(null);
+
+  useEffect(() => {
+    let alive = true;
+    async function loadUser() {
+      try {
+        const res = await fetch("/api/auth/me");
+        if (!res.ok) throw new Error("Failed");
+        const data = await res.json();
+        if (alive && data.user) {
+          setUser(data.user);
+        }
+      } catch {
+        // Fallback demo user if API fails or user not logged in
+        if (alive) {
+          setUser({
+            id: "demo-user-id",
+            name: "Lakshmi Kirana",
+            role: "vendor",
+            email: "demo@upiplus.dev",
+          });
+        }
+      }
+    }
+    loadUser();
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const userName = user?.name ?? "Lakshmi Kirana";
+  const userRole = user?.role ?? "vendor";
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black">
@@ -16,10 +54,10 @@ export default async function AppLayout({ children }: { children: React.ReactNod
               UPI++
             </Link>
             <div className="hidden sm:block text-xs text-zinc-600 dark:text-zinc-300">
-              {user.name} • {user.role}
+              {userName} • {userRole}
             </div>
           </div>
-          <LogoutButton />
+          {user ? <LogoutButton /> : null}
         </div>
       </header>
 
@@ -53,4 +91,3 @@ function NavItem({ href, label }: { href: string; label: string }) {
     </Link>
   );
 }
-
