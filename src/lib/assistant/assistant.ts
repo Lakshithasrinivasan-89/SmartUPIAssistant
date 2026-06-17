@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/mockDb";
 import { getDashboardData } from "@/lib/analytics/dashboard";
 import { getInventorySuggestions } from "@/lib/inventory/suggestions";
 import type { SupportedLanguage } from "@/lib/i18n/translations";

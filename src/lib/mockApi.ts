@@ -1,4 +1,4 @@
-import { prisma } from "./prisma";
+import { prisma } from "./mockDb";
 import { getDashboardData } from "./analytics/dashboard";
 import { getInventorySuggestions } from "./inventory/suggestions";
 import { getSummaryData, csvFromSummary } from "./reports/report";

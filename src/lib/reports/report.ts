@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/mockDb";
 
 function toISODate(d: Date) {
   return d.toISOString().slice(0, 10);

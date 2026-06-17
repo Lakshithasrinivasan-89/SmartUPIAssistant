@@ -1,5 +1,5 @@
 import type { AlertType, ExpenseCategory, TransactionCategory } from "@/lib/types";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/mockDb";
 
 type DashboardRange = "today" | "weekly" | "monthly";
 

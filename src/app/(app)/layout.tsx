@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { LogoutButton } from "@/components/LogoutButton";
 
 interface AppLayoutUser {
@@ -82,10 +83,20 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 }
 
 function NavItem({ href, label }: { href: string; label: string }) {
+  const pathname = usePathname();
+  const isActive = pathname === href || pathname?.startsWith(`${href}/`);
+
   return (
     <Link
       href={href}
-      className="rounded-xl px-3 py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800"
+      aria-current={isActive ? "page" : undefined}
+      className={
+        `rounded-xl px-3 py-2 text-sm font-medium transition-colors ${
+          isActive
+            ? "bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-50"
+            : "text-zinc-800 hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800"
+        }`
+      }
     >
       {label}
     </Link>

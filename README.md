@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+**Overview**
 
-## Getting Started
+- **Project:** Small Business Smart Assistant (UPI++) — a frontend-only Next.js app that simulates a small-business dashboard and tools for handling UPI transactions, inventory, expenses, and a simple assistant.
+- **Mode:** Frontend-only — the app uses an in-browser mock database and API layer, so no backend server or database is required to run locally.
 
-First, run the development server:
+**Quick Start**
+
+- **Install deps:**
+
+```bash
+npm install
+```
+
+- **Run dev server:**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Structure**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **`src/app`**: Next.js app routes and pages (app router).
+- **`src/components`**: Reusable UI components (buttons, inputs, mock providers).
+- **`src/lib`**: App logic and utilities.
+	- **`src/lib/mockDb.ts`**: In-browser mock database (previously `prisma.ts`).
+	- **`src/lib/mockApi.ts`**: Client-side mock API that intercepts `fetch()` calls to `/api/*`.
+	- **`src/lib/*`**: Analytics, reports, inventory helpers that use the mock DB.
+- **`package.json`**, **`tsconfig.json`**: Project config and scripts.
 
-## Learn More
+**Mock API (frontend-only)**
 
-To learn more about Next.js, take a look at the following resources:
+- The app intercepts `fetch()` calls to paths under `/api/` and routes them to the mock handlers implemented in `src/lib/mockApi.ts`.
+- Initialization is performed via the `setupMockApi()` helper (used by `src/components/MockApiProvider.tsx`).
+- This allows full app behavior (CRUD, parsing, reports) without any server or external database.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Development notes**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Use `npm run dev` to start the Next dev server.
+- The mock DB persists in `localStorage` for repeatable demos in the browser.
+- If you want to re-seed the demo data, clear the `sbsa_db_*` keys in browser storage or remove the `sbsa_db_seeded` flag.
 
-## Deploy on Vercel
+**Where to look**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- App entry: [src/app](src/app)
+- Mock API: [src/lib/mockApi.ts](src/lib/mockApi.ts)
+- Mock DB: [src/lib/mockDb.ts](src/lib/mockDb.ts)
+- Key components: [src/components](src/components)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+If you'd like, I can expand this README with screenshots, API examples, or contribution guidelines.
